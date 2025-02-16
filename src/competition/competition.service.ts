@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Competition } from './entities/competition.entity';
-import { ImportLeagueInput } from './dto/competition.dto';
+import { ImportInput } from 'src/common/dto/import-input.dto';
 
 @Injectable()
 export class CompetitionService {
@@ -11,7 +11,7 @@ export class CompetitionService {
     private competitionRepository: Repository<Competition>,
   ) {}
 
-  async importLeague(input: ImportLeagueInput): Promise<Competition> {
+  async importLeague(input: ImportInput): Promise<Competition> {
     const { leagueCode } = input;
     const apiToken = process.env.FOOTBALL_API_TOKEN;
 
@@ -56,7 +56,7 @@ export class CompetitionService {
     return competition;
   }
 
-  async getAllCompetitions(): Promise<Competition[]> {
+  async getCompetitions(): Promise<Competition[]> {
     return this.competitionRepository.find();
   }
 }

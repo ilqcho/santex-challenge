@@ -9,14 +9,27 @@ type CompetitionDTO {
   name: String!
 }
 
-input ImportLeagueInput {
+input ImportInput {
   leagueCode: String!
 }
 
 type Mutation {
-  importLeague(input: ImportLeagueInput!): CompetitionDTO!
+  importLeague(input: ImportInput!): CompetitionDTO!
+  importTeams(input: ImportInput!): [TeamDTO!]!
 }
 
 type Query {
   getCompetitions: [CompetitionDTO!]!
+  getTeamByName(name: String!): TeamDTO
+  getTeams: [TeamDTO!]!
+}
+
+type TeamDTO {
+  address: String!
+  areaName: String!
+  competitions: [CompetitionDTO!]
+  id: Float!
+  name: String!
+  shortName: String!
+  tla: String!
 }

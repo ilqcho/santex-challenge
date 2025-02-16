@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class CompetitionDTO {
@@ -13,10 +13,4 @@ export class CompetitionDTO {
 
   @Field()
   areaName: string;
-}
-
-@InputType()
-export class ImportLeagueInput {
-  @Field()
-  leagueCode: string;
 }

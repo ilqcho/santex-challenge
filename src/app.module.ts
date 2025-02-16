@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { GraphqlModule } from './graphql/graphql.module';
 import { CompetitionModule } from './competition/competition.module';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { CompetitionModule } from './competition/competition.module';
     DatabaseModule,
     GraphqlModule,
     CompetitionModule,
+    TeamModule,
   ],
   controllers: [AppController],
   providers: [AppService],
