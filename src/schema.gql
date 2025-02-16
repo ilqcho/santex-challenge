@@ -1,0 +1,22 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CompetitionDTO {
+  areaName: String!
+  code: String!
+  id: Float!
+  name: String!
+}
+
+input ImportLeagueInput {
+  leagueCode: String!
+}
+
+type Mutation {
+  importLeague(input: ImportLeagueInput!): CompetitionDTO!
+}
+
+type Query {
+  getCompetitions: [CompetitionDTO!]!
+}

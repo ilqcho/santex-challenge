@@ -3,9 +3,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
+import { GraphqlModule } from './graphql/graphql.module';
+import { CompetitionModule } from './competition/competition.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), DatabaseModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    DatabaseModule,
+    GraphqlModule,
+    CompetitionModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
