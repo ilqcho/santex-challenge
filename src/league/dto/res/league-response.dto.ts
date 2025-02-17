@@ -29,6 +29,12 @@ export class CompetitionResponseDto {
   @ValidateNested()
   @Type(() => AreaResponseDto)
   area: AreaResponseDto;
+
+  @Field(() => [TeamResponseDto], { nullable: 'items' })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => TeamResponseDto)
+  teams?: TeamResponseDto[];
 }
 
 @ObjectType()

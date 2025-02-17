@@ -47,11 +47,11 @@ export class Team {
     cascade: true,
   })
   @Field(() => Coach, { nullable: true })
-  coach: Coach;
+  coach: Coach[];
 
   @OneToMany(() => Player, (player) => player.team, {
     cascade: true,
   })
-  @Field(() => Player, { nullable: true })
-  player: Player;
+  @Field(() => [Player], { nullable: 'items' })
+  players: Player[];
 }

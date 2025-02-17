@@ -26,10 +26,11 @@ export class LeagueDbService {
   ) {}
 
   async getCompetitionByCode(leagueCode: string): Promise<Competition | null> {
-    return this.competitionRepository.findOne({
-      where: { code: leagueCode },
-      relations: ['teams'],
-    });
+    return this.competitionRepository
+      .createQueryBuilder('competition')
+      .leftJoinAndSelect('competition.teams', 'team')
+      .where('competition.code = :leagueCode', { leagueCode })
+      .getOne();
   }
 
   async saveCompetition(data: CompetitionResponseDto): Promise<Competition> {
@@ -42,6 +43,7 @@ export class LeagueDbService {
         code: data.code,
         name: data.name,
         areaName: data.area.name,
+        teams: [],
       });
     } else {
       competition.name = data.name;
@@ -49,6 +51,14 @@ export class LeagueDbService {
     }
 
     return this.competitionRepository.save(competition);
+  }
+
+  async updateCompetitionTeams(competition: Competition, teams: Team[]) {
+    await this.competitionRepository
+      .createQueryBuilder()
+      .relation(Competition, 'teams')
+      .of(competition)
+      .add(teams);
   }
 
   async saveTeam(teamData: TeamResponseDto): Promise<Team> {
@@ -63,6 +73,7 @@ export class LeagueDbService {
         shortName: teamData.shortName,
         areaName: teamData.area.name,
         address: teamData.address,
+        competitions: [],
       });
       await this.teamRepository.save(team);
     }
@@ -96,9 +107,36 @@ export class LeagueDbService {
     await this.coachRepository.save(coach);
   }
 
-  async getCompetitions(): Promise<Competition[]> {
-    return this.competitionRepository.find({
-      relations: ['teams'],
-    });
+  async getPlayersByTeam(teamId: number): Promise<Player[]> {
+    return this.playerRepository
+      .createQueryBuilder('player')
+      .leftJoinAndSelect('player.team', 'team')
+      .where('player.teamId = :teamId', { teamId })
+      .getMany();
+  }
+
+  async getCoachesByTeam(teamId: number): Promise<Coach[]> {
+    return this.coachRepository
+      .createQueryBuilder('coach')
+      .leftJoinAndSelect('coach.team', 'team')
+      .where('coach.teamId = :teamId', { teamId })
+      .getMany();
+  }
+
+  async getTeamByName(
+    teamName: string,
+    includePlayersOrCoaches: boolean = false,
+  ): Promise<Team | null> {
+    const query = this.teamRepository
+      .createQueryBuilder('team')
+      .where('LOWER(team.name) = LOWER(:teamName)', { teamName });
+
+    if (includePlayersOrCoaches) {
+      query
+        .leftJoinAndSelect('team.players', 'players')
+        .leftJoinAndSelect('team.coach', 'coach');
+    }
+
+    return query.getOne();
   }
 }

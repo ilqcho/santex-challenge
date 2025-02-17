@@ -1,4 +1,3 @@
-// league/league.service.ts
 import { Injectable } from '@nestjs/common';
 import { Competition } from './entities/competition.entity';
 import { ImportLeagueInput } from './dto/req/league-request.dto';
@@ -8,6 +7,9 @@ import {
 } from './dto/res/league-response.dto';
 import { ApiService } from 'src/api/api.service';
 import { LeagueDbService } from './league-db.service';
+import { Player } from './entities/player.entity';
+import { Coach } from './entities/coach.entity';
+import { Team } from './entities/team.entity';
 
 @Injectable()
 export class LeagueService {
@@ -54,19 +56,73 @@ export class LeagueService {
         await this.leagueDbService.saveCoach(teamData.coach, team);
       }
 
-      if (!competition.teams) {
-        competition.teams = [];
-      }
-
       if (
         !competition.teams.some((existingTeam) => existingTeam.id === team.id)
       ) {
         competition.teams.push(team);
       }
     }
+
+    await this.leagueDbService.updateCompetitionTeams(
+      competition,
+      competition.teams,
+    );
   }
 
-  async getCompetition(): Promise<Competition[]> {
-    return await this.leagueDbService.getCompetitions();
+  async getPlayersOrCoaches(
+    leagueCode: string,
+    teamName?: string,
+    onlyPlayers: boolean = false,
+  ): Promise<(Player | Coach)[]> {
+    const competition =
+      await this.leagueDbService.getCompetitionByCode(leagueCode);
+
+    if (!competition) {
+      throw new Error('League not found');
+    }
+
+    const teams = competition.teams;
+    const playersOrCoaches: (Player | Coach)[] = [];
+    let hasPlayers = false;
+
+    for (const team of teams) {
+      if (teamName && team.name !== teamName) {
+        continue;
+      }
+
+      const players = await this.leagueDbService.getPlayersByTeam(team.id);
+      if (players.length > 0) {
+        playersOrCoaches.push(...players);
+        hasPlayers = true;
+      }
+    }
+
+    if (!hasPlayers) {
+      for (const team of teams) {
+        if (teamName && team.name !== teamName) {
+          continue;
+        }
+
+        const coaches = await this.leagueDbService.getCoachesByTeam(team.id);
+        playersOrCoaches.push(...coaches);
+      }
+    }
+
+    return onlyPlayers
+      ? playersOrCoaches.filter((p) => p instanceof Player)
+      : playersOrCoaches;
+  }
+
+  async getTeamWithDetails(teamName: string): Promise<Team | null> {
+    const team = await this.leagueDbService.getTeamByName(teamName, true);
+
+    if (!team) {
+      throw new Error(`Team with name "${teamName}" not found`);
+    }
+
+    if (team.players?.length === 0 && team.coach) {
+      team.players = [team.coach as unknown as Player];
+    }
+    return team;
   }
 }

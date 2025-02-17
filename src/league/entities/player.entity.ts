@@ -25,7 +25,7 @@ export class Player {
   @Field({ nullable: true })
   nationality: string;
 
-  @ManyToOne(() => Team, (team) => team.player)
+  @ManyToOne(() => Team, (team) => team.players)
   @Field(() => Team)
   team: Team;
 }

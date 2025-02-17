@@ -36,7 +36,8 @@ type Player {
 }
 
 type Query {
-  getCompetition: Competition!
+  getPlayers(leagueCode: String!, teamName: String): [Player]!
+  getTeam(teamName: String!): Team
 }
 
 type Team {
@@ -46,7 +47,7 @@ type Team {
   competitions: [Competition!]
   id: Float!
   name: String!
-  player: Player
+  players: [Player]!
   shortName: String!
   tla: String!
 }
