@@ -50,12 +50,17 @@ export class LeagueService {
     for (const teamData of teams) {
       const team = await this.leagueDbService.saveTeam(teamData);
 
+      // If the team has a squad, save the players associated with the team
       if (teamData.squad && teamData.squad.length > 0) {
         await this.leagueDbService.savePlayers(teamData.squad, team);
-      } else if (teamData.coach) {
+      }
+      // If the team does not have a squad but has a coach, save the coach data
+      else if (teamData.coach) {
         await this.leagueDbService.saveCoach(teamData.coach, team);
       }
 
+      // Check if the team is already part of the competition's teams list
+      // If not, add the team to the competition
       if (
         !competition.teams.some((existingTeam) => existingTeam.id === team.id)
       ) {
@@ -63,6 +68,7 @@ export class LeagueService {
       }
     }
 
+    // Update the competition with the newly added teams
     await this.leagueDbService.updateCompetitionTeams(
       competition,
       competition.teams,
@@ -86,6 +92,7 @@ export class LeagueService {
     let hasPlayers = false;
 
     for (const team of teams) {
+      // Skip teams that do not match the teamName filter (if provided)
       if (teamName && team.name !== teamName) {
         continue;
       }
