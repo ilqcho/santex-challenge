@@ -15,9 +15,7 @@ export class LeagueResolver {
   }
 
   @Query(() => Competition)
-  async getCompetition(
-    @Args('leagueCode') leagueCode: string,
-  ): Promise<Competition> {
-    return this.leagueService.getCompetition(leagueCode);
+  async getCompetition(): Promise<Competition[]> {
+    return this.leagueService.getCompetition();
   }
 }

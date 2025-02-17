@@ -5,7 +5,6 @@ import {
   IsDateString,
   IsArray,
   ValidateNested,
-  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -103,15 +102,4 @@ export class TeamResponseDto {
   @ValidateNested()
   @Type(() => CoachResponseDto)
   coach?: CoachResponseDto;
-}
-
-@ObjectType()
-export class ApiResponseErrorDto {
-  @Field()
-  @IsString()
-  message: string;
-
-  @Field()
-  @IsNumber()
-  errorCode: number;
 }
