@@ -4,16 +4,14 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { GraphqlModule } from './graphql/graphql.module';
-import { CompetitionModule } from './competition/competition.module';
-import { TeamModule } from './team/team.module';
+import { LeagueModule } from './league/league.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     GraphqlModule,
-    CompetitionModule,
-    TeamModule,
+    LeagueModule,
   ],
   controllers: [AppController],
   providers: [AppService],

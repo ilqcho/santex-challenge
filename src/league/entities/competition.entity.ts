@@ -1,7 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
-import { Field } from '@nestjs/graphql';
-import { Team } from 'src/team/entities/team.entity';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { Team } from 'src/league/entities/team.entity';
 
+@ObjectType()
 @Entity()
 export class Competition {
   @PrimaryGeneratedColumn()
@@ -20,7 +21,7 @@ export class Competition {
   @Field()
   areaName: string;
 
-  @ManyToMany(() => Team, (team) => team.competitions)
+  @ManyToMany(() => Team, (team) => team.competitions, { cascade: true })
   @Field(() => [Team], { nullable: true })
   teams: Team[];
 }

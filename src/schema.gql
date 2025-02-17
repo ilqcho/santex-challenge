@@ -2,34 +2,51 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type CompetitionDTO {
+type Coach {
+  dateOfBirth: String
+  id: Float!
+  name: String
+  nationality: String
+  team: Team
+}
+
+type Competition {
   areaName: String!
   code: String!
   id: Float!
   name: String!
+  teams: [Team!]
 }
 
-input ImportInput {
+input ImportLeagueInput {
   leagueCode: String!
 }
 
 type Mutation {
-  importLeague(input: ImportInput!): CompetitionDTO!
-  importTeams(input: ImportInput!): [TeamDTO!]!
+  importLeague(input: ImportLeagueInput!): Competition!
+}
+
+type Player {
+  dateOfBirth: String
+  id: Float!
+  name: String!
+  nationality: String
+  position: String
+  team: Team!
 }
 
 type Query {
-  getCompetitions: [CompetitionDTO!]!
-  getTeamByName(name: String!): TeamDTO
-  getTeams: [TeamDTO!]!
+  getCompetition(leagueCode: String!): Competition!
 }
 
-type TeamDTO {
+type Team {
   address: String!
   areaName: String!
-  competitions: [CompetitionDTO!]
+  coach: Coach
+  competitions: [Competition!]
   id: Float!
   name: String!
+  player: Player
   shortName: String!
   tla: String!
 }
