@@ -53,8 +53,8 @@ Follow these steps to set up and run the application using Docker and Docker Com
 ### 1. Clone the repository
 
 ```sh
-git clone https://your-repository-url.git
-cd your-repository-name
+git clone https://github.com/ilqcho/santex-challenge.git
+cd santex-challenge
 ```
 
 ### 2. Configure environment variables
@@ -112,8 +112,8 @@ If you prefer to run the application locally without Docker, follow these steps:
 ### 1. Clone the repository
 
 ```sh
-git clone https://your-repository-url.git
-cd your-repository-name
+git clone https://github.com/ilqcho/santex-challenge.git
+cd santex-challenge
 ```
 
 ### 2. Install dependencies
