@@ -50,7 +50,14 @@ By using these technologies, the project ensures scalability, maintainability, a
 
 Follow these steps to set up and run the application using Docker and Docker Compose.
 
-### 1. Configure environment variables
+### 1. Clone the repository
+
+```sh
+git clone https://your-repository-url.git
+cd your-repository-name
+```
+
+### 2. Configure environment variables
 
 Create a `.env` file in the root of the project with the following content:
 
@@ -65,7 +72,7 @@ FOOTBALL_API_TOKEN=your-api-token-here
 
 You can obtain the API token from [football-data.org](https://www.football-data.org/).
 
-### 2. Build and start the containers
+### 3. Build and start the containers
 
 Run the following command:
 
@@ -79,12 +86,12 @@ This will:
 - Start the application and the PostgreSQL database in separate containers.
 - Expose the app on [http://localhost:3000](http://localhost:3000) and PostgreSQL on `localhost:5432`.
 
-### 3. Accessing the application
+### 4. Accessing the application
 
 - Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to access the application.
 - If you want to interact with GraphQL, go to [http://localhost:3000/graphql](http://localhost:3000/graphql).
 
-### 4. Stopping the containers
+### 5. Stopping the containers
 
 To stop and remove the containers, run:
 
@@ -102,7 +109,14 @@ docker-compose down --volumes
 
 If you prefer to run the application locally without Docker, follow these steps:
 
-### 1. Install dependencies
+### 1. Clone the repository
+
+```sh
+git clone https://your-repository-url.git
+cd your-repository-name
+```
+
+### 2. Install dependencies
 
 First, make sure you have Node.js installed. Then, install the required dependencies:
 
@@ -110,17 +124,17 @@ First, make sure you have Node.js installed. Then, install the required dependen
 npm install
 ```
 
-### 2. Configure environment variables
+### 3. Configure environment variables
 
 Create a `.env` file in the root of the project (as mentioned earlier), and make sure the environment variables are set correctly.
 
-### 3. Start PostgreSQL locally
+### 4. Start PostgreSQL locally
 
 Make sure you have PostgreSQL installed locally. You can download it from [here](https://www.postgresql.org/download/).
 
 Start the PostgreSQL service and make sure it's running on the port you configured (`5432` by default).
 
-### 4. Run the application
+### 5. Run the application
 
 Run the following command to start the application locally:
 
@@ -130,7 +144,7 @@ npm run start
 
 The application will be available at [http://localhost:3000](http://localhost:3000).
 
-### 5. Accessing the application
+### 6. Accessing the application
 
 - Open your browser and go to [http://localhost:3000](http://localhost:3000) to see the application.
 - To interact with GraphQL, visit [http://localhost:3000/graphql](http://localhost:3000/graphql).
